@@ -1,37 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Register</h1>
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.username.label }}<br>
-        {{ form.username(size=32) }}<br>
-        {% for error in form.username.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.email.label }}<br>
-        {{ form.email(size=64) }}<br>
-        {% for error in form.email.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password(size=32) }}<br>
-        {% for error in form.password.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.password2.label }}<br>
-        {{ form.password2(size=32) }}<br>
-        {% for error in form.password2.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>{{ form.submit() }}</p>
-</form>
+<div class="form_container">
+    <form action="" method="post">
+        <h1>Регистрация</h1>
+        {{ form.hidden_tag() }}
+        <div class="input_container">
+            {{ form.username(size=32, class_="input_field", placeholder="Логин") }}
+            {% for error in form.username.errors %}
+                <span style="color: red;" class="error">[{{ error }}]</span>
+            {% endfor %}
+
+
+            {{ form.email(size=32, class_="input_field", placeholder="email") }}
+            {% for error in form.email.errors %}
+                <span style="color: red;" class="error">[{{ error }}]</span>
+            {% endfor %}
+
+            {{ form.password(size=32, class_="input_field", placeholder="Пароль") }}
+            {% for error in form.password.errors %}
+                <span style="color: red;" class="error">[{{ error }}]</span>
+            {% endfor %}
+
+            {{ form.password2(size=32, class_="input_field", placeholder="Повторите пароль") }}
+            {% for error in form.password2.errors %}
+                <span style="color: red;" class="error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div class="submit_container">
+            {{ form.submit(class_="submit_button") }}
+        </div>
+    </form>
+</div>
 {% endblock %} 

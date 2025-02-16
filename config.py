@@ -1,4 +1,7 @@
 import os
+from datetime import timedelta
+
+
 # абсолютный путь к аудитории, в которой находится данный файл
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -12,3 +15,6 @@ class Config:
 
     # конфигурация для SQLAlchemy и бд SQLite
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+
+    # Настраивает срок жизни для session.permanent=True
+    PERMANENT_SESSION_LIFETIME = timedelta(hours=12)

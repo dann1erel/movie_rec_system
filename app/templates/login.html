@@ -1,28 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Sign In</h1>
-<form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.username.label }}<br>
-        {{ form.username(size=32) }}<br>
-        {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.password.label }}<br>
-        {{ form.password(size=32) }}<br>
-        {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.remember_me() }} {{ form.remember_me.label }}
-    </p>
-    <p>
-        {{ form.submit() }}
-    </p>
-    <p><a href="{{ url_for('register') }}">Нажмите, чтобы зарегистрироваться</a></p>
+<div class="form_container">
+    <form action="" method="post" novalidate>
+        <h1>Войти</h1>
+        {{ form.hidden_tag() }}
+            <div class="input_container">
+                {{ form.username(size=32, class_="input_field", placeholder="Логин") }}
+                {% for error in form.username.errors %}
+                    <span style="color: red;" class="error">[{{ error }}]</span>
+                {% endfor %}
+
+                {{ form.password(size=32, class_="input_field", placeholder="Пароль") }}
+                {% for error in form.password.errors %}
+                    <span style="color: red;" class="error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="remember_me_container">
+                {{ form.remember_me(id="remember_me") }}
+                {{ form.remember_me.label }}
+            </div>        
+        <div class="submit_container">
+            {{ form.submit(class_="submit_button") }}
+        </div>
+        <div class="signup_button_container">
+            <a href="{{ url_for('register') }}">Зарегистрироваться</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

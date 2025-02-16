@@ -1,0 +1,189 @@
+@font-face {
+    font-family: "NAMU-1990";
+    src: url("/static/assets/NAMU-1990.ttf") format("truetype");
+}
+
+body {
+    font-family: "NAMU-1990";
+    background-color: #161616;
+    color: #FFFFFF;
+}
+
+/* header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #000;
+} */
+
+/* Ошибки */
+.error {
+    color: red;
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-top: -10px;
+}
+
+h1 {
+    font-family: "NAMU-1990";
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    margin-top: 30px;
+    font-weight: 500;
+}
+
+/* Центрирование формы */
+/* Центрирование формы на странице */
+.form_container {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;  /* Выравнивает форму по верхнему краю */
+    height: 100vh;            /* Высота контейнера равна высоте экрана */
+    max-width: 400px;        /* Ограничивает максимальную ширину */
+    margin: 0 auto;          /* Центрирует контейнер по горизонтали */
+    padding-top: 50px;       /* Отступ сверху для смещения формы выше центра */
+}
+
+/* Стили формы */
+/* Контейнер для полей ввода */
+.input_container {
+    display: flex;
+    flex-direction: column; /* Размещает элементы вертикально */
+    justify-content: center;
+    align-items: center; 
+    width: 100%;
+    /* margin-bottom: 10px; */
+}
+
+/* Поля ввода */
+.input_field {
+    background-color: #2d2d2d;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #444444;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.input_field::placeholder {
+    color: rgb(145, 145, 145);   
+}
+
+.input_field:focus {
+    border-color: #FF38DF;     /* Изменяем цвет границы при фокусе */
+    outline: none;             /* Убираем стандартную обводку */
+}
+
+/* Стиль для контейнера "Запомнить меня" */
+.remember_me_container {
+    display: flex;             /* Используем flexbox для выравнивания элементов */
+    align-items: center;       /* Центрируем элементы по вертикали */
+    font-size: 16px;           /* Устанавливаем размер шрифта */
+    cursor: pointer;            /* Изменяем курсор на указатель при наведении */
+    margin-bottom: 20px;
+}
+
+/* Скрываем стандартный чекбокс */
+.remember_me_container input[type="checkbox"] {
+    display: none;             /* Скрываем стандартный чекбокс, чтобы использовать кастомный */
+}
+
+/* Стиль для кастомного чекбокса */
+.remember_me_container input[type="checkbox"] + label::before {
+    content: "";                              /* Создаем псевдоэлемент для кастомного чекбокса */
+    display: inline-block;                     /* Делаем элемент inline-block для управления размерами */
+    width: 16px;                              /* Устанавливаем ширину кастомного чекбокса */
+    height: 16px;                             /* Устанавливаем высоту кастомного чекбокса */
+    border: 2px solid #444444;                   /* Добавляем границу */
+    border-radius: 5px;                       /* Закругляем углы */
+    background-color: #2d2d2d;                   /* Устанавливаем белый фон */
+    margin-right: 10px;                       /* Добавляем отступ справа для текста метки */
+    position: relative;                       /* Устанавливаем относительное позиционирование для галочки */
+    transition: background-color 0.2s, border-color 0.2s; /* Плавный переход для изменения цвета */
+}
+
+/* Стиль для галочки */
+.remember_me_container input[type="checkbox"]:checked + label::after {
+    content: "";                              /* Создаем псевдоэлемент для галочки */
+}
+
+.remember_me_container label {
+    display: flex;                           /* Используем flexbox для выравнивания текста */
+    align-items: center;                     /* Центрируем текст по вертикали */
+}
+
+.remember_me_container label span {
+    margin-top: -4px;                        /* Сдвигаем текст на 2 пикселя вверх */
+}
+/* Стиль для чекбокса при активации */
+.remember_me_container input[type="checkbox"]:checked + label::before {
+    background-color: #FF38DF;               /* Изменяем фон на розовый при активации */
+    border-color: #FF38DF;                   /* Изменяем цвет границы на розовый при активации */
+}
+
+/* Эффект при наведении */
+.remember_me_container:hover input[type="checkbox"] + label::before {
+    border-color: #FF38DF;                   /* Изменяем цвет границы при наведении */
+}
+
+/* Центрирование контейнера кнопки */
+.submit_container {
+    display: flex;
+    justify-content: center; /* Центрирует кнопку по горизонтали */
+    width: 100%; /* Кнопка будет шириной, равной ширине формы */
+    margin-bottom: 10px;
+}
+
+/* Кнопка отправки */
+.submit_button {
+    background: #FF38DF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s ease;
+    box-sizing: border-box; /* Учитывает padding в ширине */
+}
+
+/* Кнопка при наведении */
+.submit_button:hover {
+    background: rgba(255, 56, 223, 0.6);
+}
+
+/* Кнопка "Зарегистрироваться" */
+.signup_button_container {
+    display: flex;
+    justify-content: center; /* Центрирует кнопку по горизонтали */
+    width: 100%; /* Кнопка будет шириной, равной ширине формы */
+    margin-bottom: 10px;
+}
+
+.signup_button_container a {
+    display: inline-block;     /* Делаем ссылку inline-block для управления размерами */
+    padding: 10px;        /* Добавляем внутренние отступы для кнопки */
+    font-size: 18px;          /* Устанавливаем размер шрифта */
+    color: white;             /* Устанавливаем цвет текста */
+    background-color: #2d2d2d; /* Устанавливаем фон кнопки */
+    border-radius: 5px;        /* Закругляем углы */
+    text-align: center;        /* Центрируем текст */
+    text-decoration: none;     /* Убираем подчеркивание текста */
+    cursor: pointer;           /* Изменяем курсор на указатель */
+    transition: background-color 0.2s ease; /* Плавный переход для изменения фона */
+    box-sizing: border-box; /* Учитывает padding в ширине */
+    width: 100%;
+}
+
+.signup_button_container a:hover {
+    background-color: #444444; /* Изменяем фон при наведении */
+}
+
+
+

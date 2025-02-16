@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, session
 from urllib.parse import urlsplit
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
@@ -13,12 +13,6 @@ def index():
   return render_template('index.html', title='Лента')
 
 
-@app.route('/user')
-@login_required
-def user():
-  return render_template('lk.html')
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
   if current_user.is_authenticated:
@@ -30,10 +24,18 @@ def login():
       flash('Invalid username or password')
       return redirect(url_for('login'))
     login_user(user, remember=form.remember_me.data)
+
+    # Если remember_me=False, делаем сессию временной
+    if form.remember_me.data == False:
+      session.permanent = False  # Сессия будет удалена при закрытии браузера
+    else:
+      session.permanent = True
+
+    print(form.remember_me.data)
     next_page = request.args.get('next')
     if not next_page or urlsplit(next_page).netloc != '':
       next_page = url_for('index')
-    return redirect(url_for('index'))
+    return redirect(next_page)
   return render_template('login.html', title='Вход', form=form)
 
 
@@ -56,3 +58,23 @@ def register():
     flash('Регистрация успешна!')
     return redirect(url_for('login'))
   return render_template('register.html', title='Регистрация', form=form)
+
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+  user = db.first_or_404(sa.select(User).where(User.username == username))
+  # поменять!!
+  likes = [
+    {'user_id': user, 'movie_id': 1},
+    {'user_id': user, 'movie_id': 1},
+  ]
+  return render_template('user.html', user=user, likes=likes)
+
+
+@app.route('/genres', methods=['GET', 'POST'])
+def genres():
+
+  # выбор жанров
+
+  return render_template('genres.html', title='Жанры', test_text='Тут будут жанры')

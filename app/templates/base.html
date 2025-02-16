@@ -4,30 +4,22 @@
       {% if title %}
         <title>{{ title }}</title>
       {% else %}
-        <title>Welcome to Microblog</title>
+        <title>filmogram</title>
       {% endif %}
+      <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
         <div>
-          Movie Recommendation System: 
-          <a href="{{ url_for('index') }}">Home</a>
-          <a href="{{ url_for('user') }}">User</a>
+          <img src="../static/assets/logo.png" class="logo" alt="logo">
+          <a  href="{{ url_for('index') }}">Главная</a>
           {% if current_user.is_anonymous %}
-          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('login') }}">Войти</a>
           {% else %}
-          <a href="{{ url_for('logout') }}">Logout</a>
+          <a href="{{ url_for('user', username=current_user.username) }}">Избранное</a>
+          <a href="{{ url_for('logout') }}">Выйти</a>
           {% endif %}
         </div>
         <hr>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-          <ul>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-        {% endwith %}
         {% block content %}{% endblock %}
     </body>
 </html>
