@@ -182,8 +182,57 @@ h1 {
 }
 
 .signup_button_container a:hover {
-    background-color: #444444; /* Изменяем фон при наведении */
+    background-color: #202020; /* Изменяем фон при наведении */
+}
+
+.genres_container {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;  /* Выравнивает форму по верхнему краю */
+    height: 100vh;            /* Высота контейнера равна высоте экрана */
+    max-width: 800px;        /* Ограничивает максимальную ширину */
+    margin: 0 auto;          /* Центрирует контейнер по горизонтали */
+    padding-top: 50px;       /* Отступ сверху для смещения формы выше центра */
+}
+
+/* чекбоксы жанры */
+.checkbox_container {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(200px, 1fr)); /* 5 колонок с минимальной шириной */
+    grid-template-rows: repeat(4, 70px);  /* 4 ряда */
+    gap: 5px; /* Отступы между кнопками */
+    justify-content: center;
+    align-items: center;
+    /* height: 50vh;            Высота контейнера равна высоте экрана */
+    max-width: 400px;        /* Ограничивает максимальную ширину */
+    margin: 0 auto;          /* Центрирует контейнер по горизонтали */
+
 }
 
 
+/* Стили для чекбоксов */
+/* .checkbox_label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 90px;
+    text-align: center;
+    padding: 5px;
+    background: #2d2d2d;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    width: 100%;
+    min-width: 100px;
+    max-width: 150px;
+    height: 45px;
+} */
 
+/* Прячем стандартный чекбокс */
+/* .checkbox_label input {
+    display: none;
+} */
+
+/* .checkbox_label.clicked {
+    background: #92EFA1;
+} */

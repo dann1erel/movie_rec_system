@@ -17,4 +17,4 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
 
     # Настраивает срок жизни для session.permanent=True
-    PERMANENT_SESSION_LIFETIME = timedelta(hours=12)
+    PERMANENT_SESSION_LIFETIME = timedelta(hours=8)

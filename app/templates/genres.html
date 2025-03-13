@@ -1,5 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ test_text }}!</h1>
+<div class="genres_container">
+    <form action="" method="post">
+        <h1>Выберите любимые жанры</h1>
+        {{ form.hidden_tag() }} 
+        <div class="checkbox_container">
+            {% for checkbox in checkboxes %}
+                <div class="remember_me_container">
+                    {{ checkbox }}
+                    {{ checkbox.label }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="submit_container">
+            {{ form.submit(class_="submit_button") }}
+        </div>
+    </form>
+</div>
 {% endblock %} 
