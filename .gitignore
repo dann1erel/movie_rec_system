@@ -162,4 +162,17 @@ cython_debug/
 #.idea/
 
 # short videos
+.clips/
+clips/
+clips
 .clips
+
+.app/__pycache__
+.app/__pycache__/
+app/__pycache__
+app/__pycache__/
+
+.migrations/
+migrations/
+migrations
+.migrations

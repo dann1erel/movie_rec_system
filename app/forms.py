@@ -8,17 +8,22 @@ from app.models import User
 
 # форма входа
 class LoginForm(FlaskForm):
-    username = StringField('Логин', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
+    username = StringField('Логин', validators=[DataRequired(message='Это обязательное поле')])
+    password = PasswordField('Пароль', validators=[DataRequired(message='Это обязательное поле')])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
+    def validate_username(self, username):
+        user = db.session.scalar(sa.select(User).where(User.username == username.data))
+        if user is None or not user.check_password(self.password.data):
+            raise ValidationError('Неверное имя пользователя или пароль')
+
 class RegistrationForm(FlaskForm):
-    username = StringField('Логин', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
+    username = StringField('Логин', validators=[DataRequired(message='Это обязательное поле')])
+    email = StringField('Email', validators=[DataRequired(message='Это обязательное поле'), Email(message='Неверный формат электронной почты')])
+    password = PasswordField('Пароль', validators=[DataRequired(message='Это обязательное поле')])
+    password2 = PasswordField('Повторите пароль', validators=[DataRequired(message='Это обязательное поле'), EqualTo('password', message='Пароли не совпадают')])
     submit = SubmitField('Зарегистрироваться')
 
     

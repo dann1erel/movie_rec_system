@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>тут будут фильмы {{ current_user.username }}!</h1>
+    <video width="320" height="240" controls>
+        <source src="{{url_for('static', filename='🎬Фильм： 1+1 #shorts #фильмы #моменты.mp4')}}" type="video/mp4">
+    </video>
 
 {% endblock %}

@@ -209,30 +209,59 @@ h1 {
 
 }
 
-
-/* Стили для чекбоксов */
-/* .checkbox_label {
+nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 90px;
-    text-align: center;
-    padding: 5px;
-    background: #2d2d2d;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease;
-    width: 100%;
-    min-width: 100px;
-    max-width: 150px;
-    height: 45px;
-} */
+    position: relative;
+    background-color: #161616;
+    padding: 15px 30px;
+}
 
-/* Прячем стандартный чекбокс */
-/* .checkbox_label input {
-    display: none;
-} */
+.logo {
+    height: 30px;
+    position: absolute;
+    left: 30px;
+}
 
-/* .checkbox_label.clicked {
-    background: #92EFA1;
-} */
+.nav_links {
+    display: flex;
+    gap: 20px;
+    position: relative;
+}
+
+.nav_links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.nav_links a::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 3px;
+    background-color: #FF38DF;
+    border-radius: 2px;
+    transition: width 0.2s ease-in-out;
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-links a:not(.active)::after {
+    width: 0;
+    transition: width 0.2s ease-in-out;
+}
+
+.nav_links a.active::after {
+    width: 50%;
+    transition: width 0.2s ease-in-out;
+}
+
+.nav_links a:hover::after {
+    width: 50%;
+}

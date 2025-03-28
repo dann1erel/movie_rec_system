@@ -9,16 +9,18 @@
       <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
-        <div>
-          <img src="../static/assets/logo.png" class="logo" alt="logo">
-          <a  href="{{ url_for('index') }}">Главная</a>
+      <nav>
+        <img src="../static/assets/logo.png" class="logo" alt="logo">
+        <div class="nav_links">
+          <a  href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Главная</a>
           {% if current_user.is_anonymous %}
-          <a href="{{ url_for('login') }}">Войти</a>
+          <a href="{{ url_for('login') }}" class="{% if request.path == url_for('login') %}active{% endif %}">Войти</a>
           {% else %}
-          <a href="{{ url_for('user', username=current_user.username) }}">Избранное</a>
-          <a href="{{ url_for('logout') }}">Выйти</a>
+          <a href="{{ url_for('user', username=current_user.username) }}" class="{% if request.path == url_for('user', username=current_user.username) %}active{% endif %}">Избранное</a>
+          <a href="{{ url_for('logout') }}" class="{% if request.path == url_for('logout') %}active{% endif %}">Выйти</a>
           {% endif %}
         </div>
+      </nav>
         {% block content %}{% endblock %}
     </body>
 </html>

@@ -8,12 +8,12 @@
             <div class="input_container">
                 {{ form.username(size=32, class_="input_field", placeholder="Логин") }}
                 {% for error in form.username.errors %}
-                    <span style="color: red;" class="error">[{{ error }}]</span>
+                    <span style="color: red;" class="error">{{ error }}</span>
                 {% endfor %}
 
                 {{ form.password(size=32, class_="input_field", placeholder="Пароль") }}
                 {% for error in form.password.errors %}
-                    <span style="color: red;" class="error">[{{ error }}]</span>
+                    <span style="color: red;" class="error">{{ error }}</span>
                 {% endfor %}
             </div>
             <div class="remember_me_container">

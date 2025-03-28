@@ -56,8 +56,11 @@ if __name__ == "__main__":
     user_id_list = [1, 2, 3, 4, 5]
     genre_like_id_list = [1, 2, 3, 4]
 
+    likes = session.execute(sa.select(GenreLikes).where(GenreLikes.user_id == 2)).scalars().all()
+    print(likes[0], likes[0].genre_id)
+
     # genre_id_list = [x for x in range(1, 21)]
-    delete_user(user_id_list)
+    # delete_user(user_id_list)
     # delete_genre_likes(genre_like_id_list)
     # delete_genres(genre_id_list)
     # add_genres(genres_list)
