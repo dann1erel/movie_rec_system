@@ -5,6 +5,8 @@ import sqlalchemy as sa
 from app import db
 from app.models import User
 
+from services.movies import Movies
+
 
 # форма входа
 class LoginForm(FlaskForm):
@@ -44,12 +46,10 @@ class RegistrationForm(FlaskForm):
 
 class CheckboxForm(FlaskForm):
     checkboxes = []
-    genres_list = ['драмы', 'комедии', 'зарубежные', 'мелодрамы', 'триллеры', 'русские', 'приключения',
-            'боевики', 'документальное', 'криминал', 'детективы', 'фантастика', 'семейное',
-            'ужасы', 'фэнтези', 'мультфильм', 'фильмы', 'для детей', 'советские', 'военные']
-    
-    # я дико извиняюсь но оно по-другому не работает
+    movies = Movies('kp')
+    genres_list = movies.get_genres()
 
+    # я дико извиняюсь но оно по-другому не работает
     field_1 = BooleanField(f'#{genres_list[0]}')
     field_2 = BooleanField(f'#{genres_list[1]}')
     field_3 = BooleanField(f'#{genres_list[2]}')

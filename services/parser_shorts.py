@@ -14,7 +14,8 @@ def download_youtube_shorts(movie_name, num_videos):
     #     ydl.download([channel_url])
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
-            search_query = f"ytsearch{num_videos}: {movie_name} shorts"
+            search_query = f"ytsearch{num_videos}: {movie_name} фильм"
+            print(search_query)
             info = ydl.extract_info(search_query, download=False)
 
             video_count = 0
@@ -31,7 +32,17 @@ def download_youtube_shorts(movie_name, num_videos):
             print(f"Ошибка при скачивании: {str(e)}")
 
 if __name__ == "__main__":
+    films = ['Корпоратив',
+            'Девочка-призрак',
+            'Дом ночных призраков',
+            'Валентинка',
+            'Оперение',
+            'Волшебное королевство Щелкунчика',
+            'Мизерере',
+            'Ёжик и девочка',
+            'Сокровища планеты. Гондурас. По следам Майя',
+            'Я, снова я и Ирэн']
     df = pd.read_csv('C:\movie_rec_system\data\kinopoisk-top250.csv')
-    for movie_name in df['movie'][:5]:
-        num_videos = 3
+    for movie_name in films:
+        num_videos = 2
         download_youtube_shorts(movie_name, num_videos)

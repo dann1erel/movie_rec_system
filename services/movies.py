@@ -22,7 +22,6 @@ class Movies:
                 genres.append(genre)
 
         genres = set(genres)
-        i = 0
         d = {genre: 0 for genre in genres}
 
         for item in df['genres']:
