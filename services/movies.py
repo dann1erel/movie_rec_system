@@ -8,6 +8,9 @@ class Movies:
         elif name == 'kion':
             self.PATH = './data/kion_with_descr.csv'
             self.index = 'item_id'
+        elif name == 'kp_cut':
+            self.PATH = './data/kp_cut.csv'
+            self.index = 'movie_id'
 
 
     def get_genres(self):

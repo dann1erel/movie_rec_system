@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 from app.models import User, Genre, GenreLikes, MovieLikes
 from config import Config
+from services.movies import Movies
 
 engine = sa.create_engine(Config.SQLALCHEMY_DATABASE_URI, echo=True)
 
@@ -9,22 +10,16 @@ SessionLocal = sa.orm.sessionmaker(bind=engine)
 session = SessionLocal()
 
 def delete_user(user_id_list):
-    for user_id in user_id_list:
-        user = session.execute(sa.select(User).where(User.id == user_id)).scalar_one_or_none()
-        if user is None:
-            print(f"User with ID {user_id} not found.")
-        else:
-            session.delete(user)
+    session.execute(
+        sa.delete(User).where(User.id.in_(user_id_list))
+    )
     session.commit()
 
 
 def delete_genres(genre_id_list):
-    for genre_id in genre_id_list:
-        genre = session.execute(sa.select(Genre).where(Genre.genre_id == genre_id)).scalar_one_or_none()
-        if genre is None:
-            print(f"User with ID {genre} not found.")
-        else:
-            session.delete(genre)
+    session.execute(
+        sa.delete(Genre).where(Genre.genre_id.in_(genre_id_list))
+    )
     session.commit()
 
 
@@ -35,32 +30,27 @@ def add_genres(genres):
     session.commit()
 
 
-def delete_genre_likes(genre_likes_id_list):
-    for genre_id in genre_likes_id_list:
-        genre_like_id = session.execute(sa.select(GenreLikes).where(GenreLikes.genre_id == genre_id)).scalar_one_or_none()
-        if genre_like_id is None:
-            print(f"User with ID {genre_like_id} not found.")
-        else:
-            session.delete(genre_like_id)
+def delete_genre_likes(user_id_likes_list):
+    session.execute(
+        sa.delete(GenreLikes).where(GenreLikes.user_id.in_(user_id_likes_list))
+    )
     session.commit()
 
 
 if __name__ == "__main__":
-    genres_list = ['драмы', 'комедии', 'зарубежные', 'мелодрамы', 'триллеры', 'русские', 'приключения',
-            'боевики', 'документальное', 'криминал', 'детективы', 'фантастика', 'семейное',
-            'ужасы', 'фэнтези', 'мультфильм', 'фильмы', 'для детей', 'советские', 'военные']
+    movies = Movies('kp_cut')
+    genres_list = movies.get_genres()
     for i in range(20):
         genres_list[i] = '#' + genres_list[i]
 
+    user_id_list = [1]
+    genre_like_user_id_list = [1]
 
-    user_id_list = [1, 2, 3, 4, 5]
-    genre_like_id_list = [1, 2, 3, 4]
+    # likes = session.execute(sa.select(GenreLikes).where(GenreLikes.user_id == 2)).scalars().all()
+    # print(likes[0], likes[0].genre_id)
 
-    likes = session.execute(sa.select(GenreLikes).where(GenreLikes.user_id == 2)).scalars().all()
-    print(likes[0], likes[0].genre_id)
-
-    # genre_id_list = [x for x in range(1, 21)]
+    genre_id_list = [x for x in range(1, 21)]
+    # delete_genre_likes(genre_like_user_id_list)
     # delete_user(user_id_list)
-    # delete_genre_likes(genre_like_id_list)
-    # delete_genres(genre_id_list)
-    # add_genres(genres_list)
+    delete_genres(genre_id_list)
+    add_genres(genres_list)

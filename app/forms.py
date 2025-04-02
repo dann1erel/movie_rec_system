@@ -46,7 +46,7 @@ class RegistrationForm(FlaskForm):
 
 class CheckboxForm(FlaskForm):
     checkboxes = []
-    movies = Movies('kp')
+    movies = Movies('kp_cut')
     genres_list = movies.get_genres()
 
     # я дико извиняюсь но оно по-другому не работает
