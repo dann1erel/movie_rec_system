@@ -38,7 +38,7 @@ def delete_genre_likes(user_id_likes_list):
 
 
 if __name__ == "__main__":
-    movies = Movies('kp_cut')
+    movies = Movies('kp_final')
     genres_list = movies.get_genres()
     for i in range(20):
         genres_list[i] = '#' + genres_list[i]

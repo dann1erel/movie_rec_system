@@ -8,14 +8,14 @@ class Movies:
         elif name == 'kion':
             self.PATH = './data/kion_with_descr.csv'
             self.index = 'item_id'
-        elif name == 'kp_cut':
-            self.PATH = './data/kp_cut.csv'
+        elif name == 'kp_final':
+            self.PATH = './data/kp_final.csv'
             self.index = 'movie_id'
+        self.df = pd.read_csv(self.PATH, index_col=self.index)
 
 
     def get_genres(self):
-        df = pd.read_csv(self.PATH, index_col=self.index)
-        genres_raw = df['genres'].unique().tolist()
+        genres_raw = self.df['genres'].unique().tolist()
         genres = []
             
         for genre in genres_raw:
@@ -27,15 +27,20 @@ class Movies:
         genres = set(genres)
         d = {genre: 0 for genre in genres}
 
-        for item in df['genres']:
+        for item in self.df['genres']:
             for genre in genres:
                 if genre in item:
                     d[genre] += 1
         d = list(dict(sorted(d.items(), key=lambda item: item[1], reverse=True)[:20]).keys())
         return d
     
+
+    def get_data_one_row(self, i):
+        return self.df.iloc[i].to_dict()
+
+    
 if __name__ == '__main__':
-    movies = Movies('kp')
-    print(movies.get_genres())
+    movies = Movies('kp_final')
+    print(movies.get_data_one_row(0))
 
 
