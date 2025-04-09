@@ -36,11 +36,19 @@ class Movies:
     
 
     def get_data_one_row(self, i):
-        return self.df.iloc[i].to_dict()
+        row = self.df.iloc[i]
+        row_dict = row.to_dict()
+        row_dict['id'] = int(row.name)
+        return row_dict
+    
+
+    def get_len(self):
+        return self.df.shape[0]
 
     
 if __name__ == '__main__':
     movies = Movies('kp_final')
     print(movies.get_data_one_row(0))
+
 
 
