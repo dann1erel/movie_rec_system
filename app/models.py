@@ -39,16 +39,37 @@ class User(UserMixin, db.Model):
     # как печатать объекты этого класса
     def __repr__(self):
         return '<User {}>'.format(self.username)
+    
 
+class Movie(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    title: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
+    rating: so.Mapped[float] = so.mapped_column(sa.Float, index=True)
+    duration: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
+    rating_count: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
+    year: so.Mapped[int] = so.mapped_column(sa.Integer, index=True)
+    # genres через новую таблицу 
+    countries: so.Mapped[str] = so.mapped_column(sa.String(128), index=True)
+    description: so.Mapped[str] = so.mapped_column(sa.String(2048), index=True)
+    poster: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
+
+    movie_genre: so.Mapped['MovieGenre'] = so.relationship(back_populates='movie')
+    movie_likes: so.Mapped['MovieLikes'] = so.relationship(back_populates='movie')
+
+
+    # как печатать объекты этого класса
+    def __repr__(self):
+        return '<Movie ID {}; Title {}>'.format(self.id, self.title)
+ 
 
 # таблица movie, где находятся лайки фильмов пользователей, по этим данным строить алгоритм??? ONE-TO-MANY
 class MovieLikes(db.Model):
-    movie_id: so.Mapped[int] = so.mapped_column(index=True, primary_key=True) # тут надо разобраться с ключами типа должна быть ещё таблица для хранения видиков
+    movie_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Movie.id), index=True, primary_key=True) # тут надо разобраться с ключами типа должна быть ещё таблица для хранения видиков
     user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True, primary_key=True)
 
     # для связи высокоуровневое представление базы взаимосвязи, а не фактическое поле
     user: so.Mapped['User'] = so.relationship(back_populates='movie_likes')
-
+    movie: so.Mapped['Movie'] = so.relationship(back_populates='movie_likes')
 
     # как печатать объекты этого класса
     def __repr__(self):
@@ -61,11 +82,25 @@ class Genre(db.Model):
     genre_name: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
 
     genre_likes: so.Mapped['GenreLikes'] = so.relationship(back_populates='genre')
+    movie_genre: so.Mapped['MovieGenre'] = so.relationship(back_populates='genre')
 
 
     # как печатать объекты этого класса
     def __repr__(self):
         return '<Genre ID {}; Genre name {}>'.format(self.genre_id, self.genre_name)
+    
+
+class MovieGenre(db.Model):
+    movie_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Movie.id), index=True, primary_key=True)
+    genre_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Genre.genre_id), index=True, primary_key=True)
+
+    movie: so.Mapped['Movie'] = so.relationship(back_populates='movie_genre')
+    genre: so.Mapped['Genre'] = so.relationship(back_populates='movie_genre')
+    
+
+    # как печатать объекты этого класса
+    def __repr__(self):
+        return '<Movie ID {}; Genre ID {}>'.format(self.movie_id, self.genre_id)
     
 
 # таблица genre_likes где хранятся жанры, которые пользователь отметил как любимые
