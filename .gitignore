@@ -176,3 +176,5 @@ app/__pycache__/
 migrations/
 migrations
 .migrations
+data/www.youtube.com_cookies.txt
+log.txt
