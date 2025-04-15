@@ -172,9 +172,9 @@ clips
 app/__pycache__
 app/__pycache__/
 
-.migrations/
-migrations/
-migrations
-.migrations
 data/www.youtube.com_cookies.txt
 log.txt
+migrations/
+.migrations
+migrations
+.migrations/

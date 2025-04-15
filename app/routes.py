@@ -5,12 +5,15 @@ import sqlalchemy as sa
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, CheckboxForm # GenreCheckboxForm
 from app.models import User, Genre, GenreLikes, MovieLikes
+from services.movies import Movies
 
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
-    return render_template('index.html', title='Лента')
+    movies = Movies('kp_final')
+    return render_template('index.html', title='Лента', data=movies.get_data_one_row(0))
 
 
 @app.route('/login', methods=['GET', 'POST'])

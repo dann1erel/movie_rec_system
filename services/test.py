@@ -1,0 +1,1 @@
+print(len('./static/clips/77282828.mp4'))

@@ -52,6 +52,7 @@ class Movie(db.Model):
     countries: so.Mapped[str] = so.mapped_column(sa.String(128), index=True)
     description: so.Mapped[str] = so.mapped_column(sa.String(2048), index=True)
     poster: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
+    path: so.Mapped[str] = so.mapped_column(sa.String(32), index=True, unique=True)
 
     movie_genre: so.Mapped['MovieGenre'] = so.relationship(back_populates='movie')
     movie_likes: so.Mapped['MovieLikes'] = so.relationship(back_populates='movie')

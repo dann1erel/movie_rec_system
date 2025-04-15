@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>тут будут фильмы {{ current_user.username }}!</h1>
-    <video width="320" height="240" controls>
-        <source src="../static/clips/final_clip.mp4" type="video/mp4">
+    <video width="480" height="640" controls>
+        <source src="{{ data['path']}}" type="video/mp4">
     </video>
 
 {% endblock %}
