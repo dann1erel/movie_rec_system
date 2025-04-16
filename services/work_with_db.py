@@ -2,6 +2,7 @@ import sqlalchemy as sa
 from app.models import User, Genre, GenreLikes, MovieLikes, Movie, MovieGenre
 from config import Config
 from services.movies import Movies
+from random import randint
 
 engine = sa.create_engine(Config.SQLALCHEMY_DATABASE_URI, echo=True)
 
@@ -76,6 +77,28 @@ def delete_genre_movies(movie_id_list):
     )
     session.commit()
 
+
+def get_random_movie():
+    total = session.execute(sa.select(sa.func.count(Movie.id))).scalar()
+
+    if not total:
+        return "Нет роликов в базе"
+    
+    offset = randint(0, total - 1)
+    stmt = sa.select(Movie).offset(offset).limit(1)
+    movie = session.execute(stmt).scalar()
+
+    return movie
+
+
+def get_movie_genres(movie_id):
+    genres_id_raw = session.execute(sa.select(MovieGenre.genre_id).where(MovieGenre.movie_id == movie_id)).all()
+    genres_id = [row.genre_id for row in genres_id_raw]
+    genres_name_raw = session.execute(sa.select(Genre.genre_name).where(Genre.genre_id.in_(genres_id))).all()
+    genres_name = [row.genre_name for row in genres_name_raw]
+    return genres_name
+
+
 if __name__ == "__main__":
     movies = Movies('kp_final')
     genres_list = movies.get_genres()
@@ -98,5 +121,10 @@ if __name__ == "__main__":
     # add_movies()
     # delete_movies([326, 435, 448, 77044, 89518, 404900, 464963, 502838, 535341, 647823])
     # delete_genre_movies(movie_id_list)
-    add_movies_genre()
+    # add_movies_genre()
     # print(session.execute(sa.select(Genre.genre_id).where(Genre.genre_name == 'реальное ТВ')).scalar())
+    movie_genres_id = session.execute(sa.select(MovieGenre.genre_id).where(MovieGenre.movie_id == 2997)).all()
+
+    genres_id = [row.genre_id for row in movie_genres_id]
+
+    print(genres_id)

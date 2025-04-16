@@ -1,19 +1,78 @@
-from flask import render_template, flash, redirect, url_for, request, session
+from flask import render_template, jsonify, redirect, url_for, request, session
 from urllib.parse import urlsplit
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, CheckboxForm # GenreCheckboxForm
-from app.models import User, Genre, GenreLikes, MovieLikes
-from services.movies import Movies
+from app.models import User, Genre, GenreLikes, MovieLikes, Movie
+from services.work_with_db import get_random_movie, get_movie_genres
+from random import randint
 
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    movies = Movies('kp_final')
-    return render_template('index.html', title='Лента', data=movies.get_data_one_row(0))
+    movie = get_random_movie()
+    genres = get_movie_genres(movie.id)
+
+    return render_template('index.html', movie=movie, genres=genres)
+
+
+@app.route('/next_movie', methods=['GET'])
+@login_required
+def next_movie():
+    current_movie_id = request.args.get('current_movie_id', type=int)
+    if current_movie_id is None:
+        return jsonify({'error': 'Не передан current_movie_id'}), 400
+
+    next_movie = get_random_movie()
+    if not next_movie:
+        # Если следующий не найден, возвращаем первый ролик
+        stmt = sa.select(Movie).order_by(Movie.id).limit(1)
+        next_movie = db.session.scalar(stmt)
+
+    next_movie_genres = get_movie_genres(next_movie.id)
+
+    return jsonify({
+        'id': next_movie.id,
+        'path': next_movie.path,  # путь относительно папки static, например "clips/1.mp4" или может быть "movie_id" если файлы в папках
+        'title': next_movie.title,
+        'description': next_movie.description,
+        'genres': next_movie_genres
+    })
+
+
+@app.route('/like_movie', methods=['POST'])
+@login_required
+def like_movie():
+    movie_id = request.form.get('movie_id', type=int)
+    if not movie_id:
+        return jsonify({'error': 'movie_id не передан'}), 400
+
+    # Проведём проверку: возможно, уже существует лайк от данного пользователя на данный ролик
+    existing = db.session.scalar(sa.select(MovieLikes).where(MovieLikes.movie_id == movie_id, MovieLikes.user_id == current_user.id))
+    if existing:
+        return jsonify({'message': 'Уже поставлен лайк'}), 200
+
+    new_like = MovieLikes(movie_id=movie_id, user_id=current_user.id)
+    db.session.add(new_like)
+    db.session.commit()
+    return jsonify({'message': 'Лайк зарегистрирован!'})
+
+
+@app.route('/show_poster', methods=['GET'])
+@login_required
+def show_poster():
+    current_movie_id = request.args.get('current_movie_id', type=int)
+    if current_movie_id is None:
+        return jsonify({'error': 'Не передан current_movie_id'}), 400
+    
+    movie = db.session.scalar(sa.select(Movie).where(Movie.id == current_movie_id))
+    if not movie:
+        return jsonify({'error': 'Ролик не найден'}), 404
+
+    return jsonify({'poster': movie.poster})
 
 
 @app.route('/login', methods=['GET', 'POST'])

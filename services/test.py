@@ -1,1 +1,2 @@
-print(len('./static/clips/77282828.mp4'))
+a = ['aaa', 'bbb']
+print(*a)

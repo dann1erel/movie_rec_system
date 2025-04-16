@@ -1,8 +1,77 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>тут будут фильмы {{ current_user.username }}!</h1>
-    <video width="480" height="640" controls>
-        <source src="{{ data['path']}}" type="video/mp4">
-    </video>
+  
+  <video id="movieVideo" width="480" height="640" controls>
+      <source id="videoSource" src="{{ movie.path }}" type="video/mp4">
+  </video>
+  <h2 id="movieTitle">{{ movie.title }}</h2>
+  <p id="movieDescription">{{ movie.description }}</p>
+  <p id="movieGenres">{{ ",  ".join(genres) }}</p>
+  
+  <button id="nextButton">Следующий</button>
+  <button id="likeButton">Лайк</button>
+  <button id="showPosterButton">Показать постер</button>
+  
+  <script>
+    let currentMovieId = {{ movie.id }};
+    
+    document.getElementById("nextButton").addEventListener("click", function() {
+      fetch(`/next_movie?current_movie_id=${currentMovieId}`)
+        .then(response => response.json())
+        .then(data => {
+          currentMovieId = data.id;
+          document.getElementById("videoSource").src = `${data.path}`;
+          document.getElementById("movieVideo").load();
+          document.getElementById("movieTitle").textContent = data.title;
+          document.getElementById("movieDescription").textContent = data.description;
+          document.getElementById("movieGenres").textContent = data.genres;
+        });
+    });
+    
+    document.getElementById("likeButton").addEventListener("click", function(){
+      let formData = new FormData();
+      formData.append('movie_id', currentMovieId);
+      fetch('/like_movie', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => console.error('Ошибка:', error));
+    });
 
+    document.getElementById("showPosterButton").addEventListener("click", function() {
+      fetch(`/show_poster?current_movie_id=${currentMovieId}`)
+        .then(response => response.json())
+        .then(data => {
+            var video = document.getElementById("movieVideo");
+            var img = document.getElementById("movieImage");
+
+            if (!img) {
+                img = document.createElement("img");
+                img.id = "movieImage";
+                img.width = 480;
+                img.height = 640;
+                img.style.display = "none";
+                video.parentNode.insertBefore(img, video);
+            }
+
+            if (this.textContent.trim() === "Показать постер") {
+                if (video) {
+                    video.style.display = "none";
+                }
+                img.src = data.poster;
+                img.style.display = "block";
+                this.textContent = "Скрыть постер";
+            } else {
+                img.style.display = "none";
+                if (video) {
+                    video.style.display = "block";
+                }
+                this.textContent = "Показать постер";
+            }
+        });
+    });
+    
+  </script>
 {% endblock %}
