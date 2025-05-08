@@ -1,17 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
   
-  <video id="movieVideo" width="480" height="640" controls>
-      <source id="videoSource" src="{{ movie.path }}" type="video/mp4">
-  </video>
-  <h2 id="movieTitle">{{ movie.title }}</h2>
-  <p id="movieDescription">{{ movie.description }}</p>
-  <p id="movieGenres">{{ ",  ".join(genres) }}</p>
-  
-  <button id="nextButton">Следующий</button>
-  <button id="likeButton">Лайк</button>
-  <button id="showPosterButton">Показать постер</button>
-  
+  <div class="video_container">
+
+      <video id="movieVideo" width="480" height="640" controls autoplay>
+          <source id="videoSource" src="{{ movie.path }}" type="video/mp4">
+      </video>
+
+      <div class="info_side">
+
+        <div class="info_container">
+          <p id="movieTitle">{{ movie.title }}</p>
+          <p id="movieDescription">{{ movie.description }}</p>
+          <p id="movieGenres">{{ ", ".join(genres) }}</p>
+        </div>
+
+        <div class="button_container">
+          <button id="nextButton", class="index_button">Следующий</button>
+          <button id="likeButton", class="index_button">Сохранить</button>
+          <button id="showPosterButton", class="index_button">Показать постер</button>
+        </div>
+
+      </div>
+
+
+  </div>
+    
   <script>
     let currentMovieId = {{ movie.id }};
     

@@ -1,8 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Пользователь: {{ user.username }}!</h1>
+    <h1>Пользователь: {{ user.username }}</h1>
 
-    {% for genre in genres %}
-    <ul>{{ genre }}</ul>
-    {% endfor %}
+    <h2>Любимые жанры:</h2>
+    <ul>
+        {% for genre in genres %}
+        <li>{{ genre }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Любимые фильмы:</h2>
+    <div class="movie-grid">
+        {% for like in likes %}
+        <div class="movie-item">
+            <img src="{{ like[1] }}" alt="{{ like[0] }} Poster">
+            <div class="movie-title">{{ like[0] }}</div>
+        </div>
+        {% endfor %}
+    </div>
 {% endblock %}

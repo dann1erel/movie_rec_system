@@ -123,19 +123,19 @@ def register():
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
     genre_likes = db.session.execute(sa.select(GenreLikes).where(GenreLikes.user_id == user.id)).scalars().all()
+    movie_likes = db.session.execute(sa.select(MovieLikes).where(MovieLikes.user_id == user.id)).scalars().all()
+    likes = []
     genres = []
 
     for like in genre_likes:
         genre = db.session.scalar(sa.select(Genre).where(Genre.genre_id == like.genre_id))
         genres.append(genre.genre_name)
 
-    print(genres)
+    for like in movie_likes:
+        movie = db.session.scalar(sa.select(Movie).where(Movie.id == like.movie_id))
+        likes.append((movie.title, movie.poster))
 
-    likes = [
-        {'user_id': user, 'movie_id': 1},
-        {'user_id': user, 'movie_id': 1},
-    ]
-    return render_template('user.html', user=user, genres=genres)
+    return render_template('user.html', user=user, genres=genres, likes=likes)
 
 
 @app.route('/genres', methods=['GET', 'POST'])

@@ -100,14 +100,14 @@ def get_movie_genres(movie_id):
 
 
 if __name__ == "__main__":
-    movies = Movies('kp_final')
-    genres_list = movies.get_genres()
-    for i in range(20):
-        genres_list[i] = '#' + genres_list[i]
+    # movies = Movies('kp_final')
+    # genres_list = movies.get_genres()
+    # for i in range(20):
+    #     genres_list[i] = '#' + genres_list[i]
 
-    user_id_list = [1]
-    genre_like_user_id_list = [1]
-    movie_id_list = [326]
+    # user_id_list = [1]
+    # genre_like_user_id_list = [1]
+    # movie_id_list = [326]
 
 
     # likes = session.execute(sa.select(GenreLikes).where(GenreLikes.user_id == 2)).scalars().all()
@@ -123,8 +123,5 @@ if __name__ == "__main__":
     # delete_genre_movies(movie_id_list)
     # add_movies_genre()
     # print(session.execute(sa.select(Genre.genre_id).where(Genre.genre_name == 'реальное ТВ')).scalar())
-    movie_genres_id = session.execute(sa.select(MovieGenre.genre_id).where(MovieGenre.movie_id == 2997)).all()
-
-    genres_id = [row.genre_id for row in movie_genres_id]
-
-    print(genres_id)
+    movie = session.execute(sa.select(Movie).where(Movie.id == 298)).scalar()
+    print(movie.id, movie.title, movie.rating)
